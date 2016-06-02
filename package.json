@@ -1,0 +1,35 @@
+{
+  "name": "photo_rename",
+  "description": "Rename JPG files to IMG_yyyymmdd_hhmmss.jpg",
+  "version": "0.0.1",
+  "author": "Tjaart van der Walt",
+  "bin": "./photo_rename",
+  "bugs": {
+    "url": "https://github.com/tjaartvdwalt/photo_rename_node/issues"
+  },
+  "dependencies": {
+    "cli-color": "^1.1.0",
+    "co": "^4.6.0",
+    "commander": "^2.9.0",
+    "exif": "^0.6.0",
+    "moment": "^2.13.0",
+    "optparse": "^1.0.5",
+    "prompt": "^1.0.0",
+    "sprintf": "^0.1.5"
+  },
+  "homepage": "https://github.com/tjaartvdwalt/photo_rename_node#readme",
+  "keywords": [
+    "photo",
+    "rename"
+  ],
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjaartvdwalt/photo_rename_node.git"
+  },
+  "scripts": {
+    "postversion": "git push && git push --tags",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
