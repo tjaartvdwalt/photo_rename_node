@@ -19,8 +19,9 @@ This script is fairly specific. It renames all JPG files (technically files with
 The naming pattern described above is the naming pattern used by the stock Android camera. Renaming photos taken with other devices to this scheme allows me to seamlessly merge photos into a single directory and maintain consistent file names.
 
 
-~~**IMPORTANT NOTE**~~
-~~Since we are renaming files based on the date created by the device that created the file, this device's date should be correctly set. (For the next release I want to add more options to change the date with some offset)~~
+**IMPORTANT NOTE**
+
+Since we are renaming files based on the date created by the device that created the file, this device's date should be correctly set. (For the next release I want to add more options to change the date with some offset)
 
 ## Usage ##
 ```bash
