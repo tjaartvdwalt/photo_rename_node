@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // photo_rename renames all .jpg files in a given directory to the form IMG_*yyyymmdd*_*hhmmss*.jpg
 // Copyright (C) 2016  Tjaart van der Walt
 
@@ -21,13 +19,10 @@ const co = require('co')
 const glob = require('glob')
 const moment = require('moment')
 const path = require('path')
-const pjson = require('./package.json')
-const program = require('commander')
-const prompt = require('prompt')
 const shelljs = require('shelljs')
 const sprintf = require('sprintf').sprintf
 
-var helpers = {
+module.exports = {
   updateName: function (file) {
     return new Promise(function (resolve, reject) {
       var ExifImage = require('exif').ExifImage
@@ -100,46 +95,5 @@ var helpers = {
     for (var i in map) {
       shelljs.mv(i, map[i])
     }
-  },
-
-  initialize: function () {
-    program
-      .version(pjson.version)
-      .option('-b, --batch', 'Batch mode. Will not ask confirmation before renaming.')
-      .arguments('[dir]')
-      .action(function (dir) {
-        co(function * () {
-          if (!dir) {
-            dir = '.'
-          }
-          var map = yield this.mapNames(dir)
-          var results = this.checkForChanges(map)
-          this.displayRenameResults(results)
-          prompt.start()
-          prompt.get(
-            {
-              properties: {
-                confirm: {
-                  description: 'Are you sure want to do this? (Y/N)',
-                  pattern: /^[yYnN]/,
-                  message: 'You must answer (Y/N)',
-                  required: true
-                }
-              }
-            },
-            function (err, result) {
-              if (err) {
-                console.error(err)
-                process.exit(1)
-              }
-              if (result.confirm.match('[yY]')) {
-                this.rename(results.change)
-              }
-            }.bind(this))
-        }.bind(this))
-      }.bind(this))
-      .parse(process.argv)
   }
 }
-
-helpers.initialize()
