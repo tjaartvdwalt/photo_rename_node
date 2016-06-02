@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // photo_rename renames all .jpg files in a given directory to the form IMG_*yyyymmdd*_*hhmmss*.jpg
 // Copyright (C) 2016  Tjaart van der Walt
 
