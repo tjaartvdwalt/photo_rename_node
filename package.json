@@ -1,9 +1,11 @@
 {
   "name": "photo_rename",
   "description": "Rename JPG files to IMG_yyyymmdd_hhmmss.jpg",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Tjaart van der Walt",
-  "bin": {"photo_rename": "./bin/cli.js"},
+  "bin": {
+    "photo_rename": "./bin/cli.js"
+  },
   "bugs": {
     "url": "https://github.com/tjaartvdwalt/photo_rename_node/issues"
   },
