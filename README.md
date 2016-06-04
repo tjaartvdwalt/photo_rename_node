@@ -2,8 +2,10 @@
 
 This is a Nodejs port of my original script written in Ruby. Currently it provides around 80% of the functionality of the original, and everything that I needed for my personal use. The plan is to deprecate the Ruby script since I am now mostly working in Nodejs and are much more capable in that language.
 
+[![NPM](https://nodei.co/npm/photo_rename.png?compact=true)](https://nodei.co/npm/photo_rename/)
+
 ## Installation ##
-The only dependency is for the script is that `Nodejs` and `npm` be installed.
+The only dependency is for the script is that `Nodejs` and `npm` be installed. Other depenedencies will be automatically installed by `npm`.
 
 To install the script itself:
 ```bash
