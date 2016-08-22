@@ -34,9 +34,9 @@ It is quite common (at least for me) that my camera time is incorrect. This happ
 
 Although I started implementing this functionality into the app, I decided to stick to the Unix philosophy of letting the app "do one thing well". There are many different tools that are better suited to changing an image's exif data. Personally I use [jhead](http://freecode.com/projects/jhead). It does everything I need and is simple to learn. 
 
-Lets look at an example that happens to me quite often:
+Lets look at an example:
 
-I took my photos while in `EST`, but my camera was set to `CST`, so I had to adjust the time forward with 1 hour.)
+If I take my photos while in `EST`, but my camera was set to `CST`, I have to adjust the time forward with 1 hour.)
 
 ```
 jhead -ta+1:00 ~/my_photos/*
