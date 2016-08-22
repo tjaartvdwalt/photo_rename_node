@@ -28,6 +28,7 @@ photo_rename [directory]
 ![img](./screenshots/example.png)
 
 
+
 ## Changing the image date ##
 
 It is quite common (at least for me) that my camera time is incorrect. This happens most often to me when traveling to a different time zone.
@@ -80,6 +81,6 @@ IMG_20160820_091854.RW2
 ```
 
 
-### License ###
+## License ##
 
 This program is licensed under [GNU GPL](http://www.gnu.org/licenses/gpl-3.0.txt)
