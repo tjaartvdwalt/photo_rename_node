@@ -53,10 +53,32 @@ Or if you want to do it all in one command:
 cd ~/my_photos && jhead -ta+1:00 * && photo_rename
 ```
 
-## Change log ##
+## Renaming RAW files ##
 
-### 0.1.0 ###
-First release of the Nodejs port
+Since `v0.1.6` of the app you can rename your `RAW` file together with the `JPEG` file.
+
+You specify the file extension you want to rename. The algorithm will look for a file with that extension, with the same base name as the  `JPEG` file. These two files will then be renamed together with the new base name.
+
+For example, lets say my camera created the following two files after I take a photo:
+
+```
+P1010880.JPG
+P1010880.RW2 
+```
+
+I give the following command:
+
+```
+photo_rename -e RW2 .
+```
+
+Will result in the files being renamed as:
+
+```
+IMG_20160820_091854.jpg
+IMG_20160820_091854.RW2
+```
+
 
 ### License ###
 

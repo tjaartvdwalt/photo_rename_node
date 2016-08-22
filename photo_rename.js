@@ -16,6 +16,7 @@
 
 const clc = require('cli-color')
 const co = require('co')
+const fs = require('fs')
 const glob = require('glob')
 const moment = require('moment')
 const path = require('path')
@@ -34,7 +35,7 @@ module.exports = {
             reject(error)
           } else {
             var date = moment(exifData.exif.DateTimeOriginal, 'YYYY:MM:DD HH:mm:ss')
-            var fileName = sprintf('IMG_%04d%02d%02d_%02d%02d%02d.jpg', date.year(), date.month(),
+            var fileName = sprintf('IMG_%04d%02d%02d_%02d%02d%02d.jpg', date.year(), date.month() + 1,
               date.date(), date.hours(), date.minutes(), date.seconds())
             var dir = path.dirname(file)
             resolve(path.join(dir, fileName))
@@ -47,7 +48,7 @@ module.exports = {
     })
   },
 
-  mapNames: function (curPath, options) {
+  mapNames: function (curPath, extension, debug) {
     return new Promise(function promise (resolve, reject) {
       glob(curPath + '/*.[jJ][pP][gG]', function (er, files) {
         co(function * () {
@@ -55,11 +56,31 @@ module.exports = {
           for (var i in files) {
             var updatedName = yield this.updateName(files[i])
             change[path.normalize(files[i])] = updatedName
+            // if the extension is given, rename that file as well
+            if (extension) {
+              var source = this.replaceExtension(files[i], extension)
+              var dest = this.replaceExtension(updatedName, extension)
+              try {
+                fs.statSync(source)
+                change[path.normalize(source)] = dest
+              } catch (err) {
+                if (debug) {
+                  console.error(err.message)
+                }
+              }
+            }
           }
           resolve(change)
         }.bind(this))
       }.bind(this))
     }.bind(this))
+  },
+
+  replaceExtension: function (myPath, extension) {
+    var dir = path.dirname(myPath)
+    var fileWithoutExtension = path.basename(myPath).match('(.*)\\..*$')[1]
+    var filename = fileWithoutExtension + '.' + extension
+    return path.join(dir, filename)
   },
 
   checkForChanges: function (map) {
@@ -91,7 +112,7 @@ module.exports = {
     }
   },
 
-  rename: function (map) {
+  rename: function (map, extension) {
     for (var i in map) {
       shelljs.mv(i, map[i])
     }

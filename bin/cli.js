@@ -9,13 +9,15 @@ var rename = require('../photo_rename')
 program
   .version(pjson.version)
   .option('-b, --batch', 'Batch mode. Will not ask confirmation before renaming.')
+  .option('-d, --debug', 'Print debug info.')
+  .option('-e, --extension [ext]', 'Adjust a similar named file with another extension.(Useful for RAW files)')
   .arguments('[dir]')
   .action(function (dir) {
     co(function * () {
       if (!dir) {
         dir = '.'
       }
-      var map = yield rename.mapNames(dir)
+      var map = yield rename.mapNames(dir, program.extension, program.debug)
       var results = rename.checkForChanges(map)
       rename.displayRenameResults(results)
       prompt.start()
