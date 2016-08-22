@@ -82,4 +82,4 @@ IMG_20160820_091854.RW2
 
 ### License ###
 
-This program is licensed under [http://www.gnu.org/licenses/gpl-3.0.txt](GNU GPL)
+This program is licensed under [GNU GPL](http://www.gnu.org/licenses/gpl-3.0.txt)
