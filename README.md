@@ -20,11 +20,6 @@ This script is fairly specific. It renames all JPG files (technically files with
 
 The naming pattern described above is the naming pattern used by the stock Android camera. Renaming photos taken with other devices to this scheme allows me to seamlessly merge photos into a single directory and maintain consistent file names.
 
-
-**IMPORTANT NOTE**
-
-Since we are renaming files based on the date created by the device that created the file, this device's date should be correctly set. (For the next release I want to add more options to change the date with some offset)
-
 ## Usage ##
 ```bash
 photo_rename [directory]
@@ -32,6 +27,31 @@ photo_rename [directory]
 
 ![img](./screenshots/example.png)
 
+
+## Changing the image date ##
+
+It is quite common (at least for me) that my camera time is incorrect. This happens most often to me when traveling to a different time zone.
+
+Although I started implementing this functionality into the app, I decided to stick to the Unix philosophy of letting the app "do one thing well". There are many different tools that are better suited to changing an image's exif data. Personally I use [jhead](http://freecode.com/projects/jhead). It does everything I need and is simple to learn. 
+
+Lets look at an example that happens to me quite often:
+
+I took my photos while in `EST`, but my camera was set to `CST`, so I had to adjust the time forward with 1 hour.)
+
+```
+jhead -ta+1:00 ~/my_photos/*
+```
+
+Then I run `photo_rename` on the same directory
+```
+photo_rename ~/my_photos
+```
+
+Or if you want to do it all in one command:
+
+```
+cd ~/my_photos && jhead -ta+1:00 * && photo_rename
+```
 
 ## Change log ##
 
