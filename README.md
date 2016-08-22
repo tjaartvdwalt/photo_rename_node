@@ -33,7 +33,7 @@ photo_rename [directory]
 
 It is quite common (at least for me) that my camera time is incorrect. This happens most often to me when traveling to a different time zone.
 
-Although I started implementing this functionality into the app, I decided to stick to the Unix philosophy of letting the app "do one thing well". There are many different tools that are better suited to changing an image's exif data. Personally I use [jhead](http://freecode.com/projects/jhead). It does everything I need and is simple to learn. 
+I started implementing this functionality into the app that fixes this problem, but eventually I decided to stick to the Unix philosophy of letting the app "do one thing well". There are many different tools that are better suited to changing an image's exif data. Personally I use [jhead](http://freecode.com/projects/jhead). It does everything I need and is simple to learn. 
 
 Lets look at an example:
 
@@ -58,7 +58,7 @@ cd ~/my_photos && jhead -ta+1:00 * && photo_rename
 
 Since `v0.1.6` of the app you can rename corresponding `RAW` files (or any file really) together with the `JPEG` file.
 
-Since `RAW` file extensions seem to vary quite a lot, you need to specify the file extension for your particular case. The algorithm will look for files with that extension that have the same base name as a `JPEG` file. These two files will be renamed together with the new date based name.
+Since `RAW` file extensions seem to vary quite a lot, you need to specify the file extension for your particular case. The algorithm will look for files with that extension that have the same base name as a `JPEG` file. These two files will be renamed together, using the new date based name.
 
 For example, lets say my camera created the following two files after I take a photo:
 
