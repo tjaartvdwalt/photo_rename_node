@@ -20,41 +20,54 @@ const fs = require('fs')
 const glob = require('glob')
 const moment = require('moment')
 const path = require('path')
-const shelljs = require('shelljs')
 const sprintf = require('sprintf').sprintf
+var ExifImage = require('exif').ExifImage
 
 module.exports = {
+  /**
+   * Read the exif date from the given file, and returns the proposed file path.
+   * The file name will have the form: `IMG_yyyymmdd_hhmmss.jpg`
+   */
   updateName: function (file) {
     return new Promise(function (resolve, reject) {
-      var ExifImage = require('exif').ExifImage
-
       try {
-        new ExifImage({ image: file }, function (error, exifData) {
+        new ExifImage({ image: file }, function (error, exifData) { // eslint-disable-line no-new
           if (error) {
-            console.error('Error: ' + error.message)
-            reject(error)
+            reject(`${error.message}`)
           } else {
             var date = moment(exifData.exif.DateTimeOriginal, 'YYYY:MM:DD HH:mm:ss')
-            var fileName = sprintf('IMG_%04d%02d%02d_%02d%02d%02d.jpg', date.year(), date.month() + 1,
+            if (!exifData.exif.DateTimeOriginal) {
+              reject('No "DateTimeOriginal" exif field found in the given image')
+            } else {
+              var fileName = sprintf('IMG_%04d%02d%02d_%02d%02d%02d.jpg', date.year(), date.month() + 1,
               date.date(), date.hours(), date.minutes(), date.seconds())
-            var dir = path.dirname(file)
-            resolve(path.join(dir, fileName))
+              var dir = path.dirname(file)
+              resolve(path.join(dir, fileName))
+            }
           }
         })
       } catch (error) {
-        console.error('Error: ' + error.message)
-        reject(error)
+        reject(`${error.message}`)
       }
     })
   },
 
+  /**
+   * Search for .jpg files in the current path, and return a map of current names -> new names
+   * Optionally we can also search for another extension type to be renamed with the jpg file.
+   * This is useful when renaming RAW files together with their jpg counterpart
+   */
   mapNames: function (curPath, extension, debug) {
-    return new Promise(function promise (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       glob(curPath + '/*.[jJ][pP][gG]', function (er, files) {
         co(function * () {
           var change = {}
           for (var i in files) {
-            var updatedName = yield this.updateName(files[i])
+            try {
+              var updatedName = yield this.updateName(files[i])
+            } catch (err) {
+              console.error(clc.red(`Error renaming ${files[i]}:\n${err}`))
+            }
             change[path.normalize(files[i])] = updatedName
             // if the extension is given, rename that file as well
             if (extension) {
@@ -76,6 +89,10 @@ module.exports = {
     }.bind(this))
   },
 
+  /*
+   * Remove the file extension from the the given file, and replace it with the given extension
+   * e.g  replaceExtension('/my/path/test.jpg', 'RAW') -> '/my/path/test.RAW'
+   */
   replaceExtension: function (myPath, extension) {
     var dir = path.dirname(myPath)
     var fileWithoutExtension = path.basename(myPath).match('(.*)\\..*$')[1]
@@ -83,6 +100,10 @@ module.exports = {
     return path.join(dir, filename)
   },
 
+  /*
+   * Separate files into a map filenames that will be changed,
+   * and an array of filenames that will remain the same
+   */
   checkForChanges: function (map) {
     var unchanged = []
     var change = {}
@@ -96,6 +117,9 @@ module.exports = {
     return {change: change, unchanged: unchanged}
   },
 
+  /*
+   * Print a message to show which files will change, and which will be left unchanged
+   */
   displayRenameResults: function (map) {
     if (map.unchanged.length > 0) {
       console.log('These image names are correct, and will be ignored:')
@@ -112,9 +136,12 @@ module.exports = {
     }
   },
 
-  rename: function (map, extension) {
+  /*
+   * Perform the renaming of the files in the map
+   */
+  rename: function (map) {
     for (var i in map) {
-      shelljs.mv(i, map[i])
+      fs.renameSync(i, map[i])
     }
   }
 }

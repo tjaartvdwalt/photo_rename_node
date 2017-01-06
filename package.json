@@ -32,7 +32,18 @@
     "url": "git+https://github.com/tjaartvdwalt/photo_rename_node.git"
   },
   "scripts": {
+    "lint": "eslint photo_rename.js bin/cli.js tests/photo_rename_test.js",
     "postversion": "git push && git push --tags",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "eslint": "^3.12.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "mocha": "^3.2.0"
   }
 }
