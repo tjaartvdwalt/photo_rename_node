@@ -4,6 +4,8 @@ This is a Nodejs port of my original script written in Ruby. Currently it provid
 
 [![NPM](https://nodei.co/npm/photo_rename.png?compact=true)](https://nodei.co/npm/photo_rename/)
 
+[![codebeat badge](https://codebeat.co/badges/e924f890-bca5-4a4e-8aa3-9b2a318caaf5)](https://codebeat.co/projects/github-com-tjaartvdwalt-photo_rename_node-master)
+
 ## Installation ##
 The only dependency is for the script is that `Nodejs` and `npm` be installed. Other depenedencies will be automatically installed by `npm`.
 
